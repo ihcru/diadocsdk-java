@@ -242,24 +242,6 @@ public class DiadocApi {
     }
 
     /**
-     * Use AuthClient instead
-     */
-
-    @Deprecated
-    public void Authenticate(X509Certificate currentCert, boolean autoConfirm) throws Exception {
-        authClient.authenticate(currentCert, autoConfirm);
-    }
-
-    /**
-     * Use AuthClient instead
-     */
-
-    @Deprecated
-    public void Authenticate(X509Certificate currentCert) throws Exception {
-        authClient.authenticate(currentCert);
-    }
-
-    /**
      * Use ShelfClient instead
      */
     @Deprecated
