@@ -38,7 +38,7 @@ public class DocumentClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/V3/GetDocuments")
                     .addParameter("boxId", filter.getBoxId())
                     .addParameter("filterCategory", filter.getFilterCategory());
@@ -48,12 +48,12 @@ public class DocumentClient {
             }
 
             if (filter.getTimestampFrom() != null) {
-                var fromTicks = Tools.toCsTicks(filter.getTimestampFrom().getTime());
+                long fromTicks = Tools.toCsTicks(filter.getTimestampFrom().getTime());
                 url.addParameter("timestampFromTicks", Long.toString(fromTicks));
             }
 
             if (filter.getTimestampTo() != null) {
-                var toTicks = Tools.toCsTicks(filter.getTimestampTo().getTime());
+                long toTicks = Tools.toCsTicks(filter.getTimestampTo().getTime());
                 url.addParameter("timestampToTicks", Long.toString(toTicks));
             }
 
@@ -83,7 +83,7 @@ public class DocumentClient {
                 url.addParameter("count", filter.getCount().toString());
             }
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
 
             return DocumentList.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
@@ -153,7 +153,7 @@ public class DocumentClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V3/GetDocument")
                             .addParameter("boxId", boxId)
@@ -171,7 +171,7 @@ public class DocumentClient {
             throw new IllegalArgumentException("operation");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/MoveDocuments")
                             .build())
@@ -190,7 +190,7 @@ public class DocumentClient {
             throw new IllegalArgumentException("messageId");
         }
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetDocumentsByMessageId")
                             .addParameter("boxId", boxId)
@@ -208,7 +208,7 @@ public class DocumentClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/PrepareDocumentsToSign")
                             .build())
@@ -230,7 +230,7 @@ public class DocumentClient {
             throw new IllegalArgumentException("entityId");
         }
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V4/GetEntityContent")
                             .addParameter("boxId", currentBoxId)
@@ -255,7 +255,7 @@ public class DocumentClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetSignatureInfo")
                             .addParameter("boxId", boxId)

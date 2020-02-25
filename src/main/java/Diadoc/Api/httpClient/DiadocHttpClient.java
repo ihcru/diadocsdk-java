@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.*;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.config.RegistryBuilder;
@@ -19,6 +20,7 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContextBuilder;
@@ -47,8 +49,8 @@ public class DiadocHttpClient {
     private String baseUrl;
 
     public DiadocHttpClient(CredentialsProvider credentialsProvider, String baseUrl, @Nullable HttpHost proxyHost) {
-        var sslSocketFactory = getTrustfulSslSocketFactory();
-        var httpClientBuilder = HttpClients
+        SSLConnectionSocketFactory sslSocketFactory = getTrustfulSslSocketFactory();
+        HttpClientBuilder httpClientBuilder = HttpClients
                 .custom()
                 .setSSLSocketFactory(sslSocketFactory)
                 .setConnectionManager(new PoolingHttpClientConnectionManager(
@@ -73,31 +75,31 @@ public class DiadocHttpClient {
     }
 
     public byte[] performRequest(RequestBuilder requestBuilder) throws IOException {
-        try (var response = httpClient.execute(requestBuilder.build())) {
+        try (CloseableHttpResponse response = httpClient.execute(requestBuilder.build())) {
             return getResponseBytes(response);
         }
     }
 
     public GeneratedFile performRequestWithGeneratedFile(RequestBuilder requestBuilder) throws IOException, ParseException {
-        try (var response = httpClient.execute(requestBuilder.build())) {
+        try (CloseableHttpResponse response = httpClient.execute(requestBuilder.build())) {
             return new GeneratedFile(tryGetHttpResponseFileName(response), getResponseBytes(response));
         }
     }
 
     public FileContent performRequestWithFileContent(RequestBuilder requestBuilder) throws IOException {
-        try (var response = httpClient.execute(requestBuilder.build())) {
+        try (CloseableHttpResponse response = httpClient.execute(requestBuilder.build())) {
             return new FileContent(getResponseBytes(response), tryGetFileContentName(response));
         }
     }
 
     public DiadocResponseInfo getResponse(RequestBuilder requestBuilder) throws IOException {
-        try (var response = httpClient.execute(requestBuilder.build())) {
+        try (CloseableHttpResponse response = httpClient.execute(requestBuilder.build())) {
             return getResponse(response);
         }
     }
 
     public DiadocResponseInfo getRawResponse(RequestBuilder requestBuilder) throws IOException, ParseException {
-        try (var response = httpClient.execute(requestBuilder.build())) {
+        try (CloseableHttpResponse response = httpClient.execute(requestBuilder.build())) {
             return getRawResponse(response);
         }
     }
@@ -145,7 +147,7 @@ public class DiadocHttpClient {
 
     private static SSLConnectionSocketFactory getTrustfulSslSocketFactory() {
         try {
-            var ctx = SSLContextBuilder.create().loadTrustMaterial(new TrustAllStrategy()).build();
+            SSLContext ctx = SSLContextBuilder.create().loadTrustMaterial(new TrustAllStrategy()).build();
             return new SSLConnectionSocketFactory(ctx, NoopHostnameVerifier.INSTANCE);
         } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
             e.printStackTrace();
@@ -157,23 +159,23 @@ public class DiadocHttpClient {
         if (timeoutInMillis == null) {
             timeoutInMillis = 5 * 60 * 1000;
         }
-        var timeLimit = new Date(new Date().getTime() + timeoutInMillis).getTime();
+        long timeLimit = new Date(new Date().getTime() + timeoutInMillis).getTime();
 
         try {
             while (true) {
-                try (var response = httpClient.execute(
+                try (CloseableHttpResponse response = httpClient.execute(
                         RequestBuilder.get(
                                 new URIBuilder(baseUrl)
                                         .setPath(path)
                                         .addParameter("taskId", taskId)
                                         .build())
                                 .build())) {
-                    var statusCode = response.getStatusLine().getStatusCode();
+                    int statusCode = response.getStatusLine().getStatusCode();
                     if (statusCode == HttpStatus.SC_NO_CONTENT) {
                         if (new Date().getTime() > timeLimit) {
                             throw new TimeoutException(String.format("Can't GET '%s'. Timeout %ds expired.", path, timeLimit / 1000));
                         }
-                        var retryAfter = tryGetRetryAfter(response);
+                        Integer retryAfter = tryGetRetryAfter(response);
                         int delayInSeconds = retryAfter != null
                                 ? Math.min(retryAfter, 15)
                                 : 15;

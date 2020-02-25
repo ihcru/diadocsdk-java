@@ -5,6 +5,7 @@ import Diadoc.Api.exceptions.DiadocException;
 import Diadoc.Api.exceptions.DiadocSdkException;
 import Diadoc.Api.helpers.Tools;
 import Diadoc.Api.httpClient.DiadocHttpClient;
+import Diadoc.Api.httpClient.DiadocResponseInfo;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.utils.URIBuilder;
@@ -32,7 +33,7 @@ public class OrganizationClient {
         if (boxId == null)
             throw new IllegalArgumentException("boxId");
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetBox")
                             .addParameter("boxId", boxId)
@@ -65,7 +66,7 @@ public class OrganizationClient {
     }
 
     public OrganizationWithCounteragentStatus[] getOrganizationsByInnList(String myOrgId, Iterable<String> innList) throws DiadocSdkException {
-        var request = GetOrganizationsByInnListRequest.newBuilder();
+        GetOrganizationsByInnListRequest.Builder request = GetOrganizationsByInnListRequest.newBuilder();
         request.addAllInnList(innList);
         return getOrganizationsByInnList(myOrgId, request.build());
     }
@@ -76,7 +77,7 @@ public class OrganizationClient {
         if (innListRequest == null)
             throw new IllegalArgumentException("innListRequest");
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetOrganizationsByInnList")
                             .addParameter("myOrgId", myOrgId)
@@ -84,7 +85,7 @@ public class OrganizationClient {
                     .setEntity(new ByteArrayEntity(innListRequest.toByteArray()));
 
 
-            var response = GetOrganizationsByInnListResponse.parseFrom(diadocHttpClient.performRequest(request));
+            GetOrganizationsByInnListResponse response = GetOrganizationsByInnListResponse.parseFrom(diadocHttpClient.performRequest(request));
             return response.getOrganizationsList().toArray(new OrganizationWithCounteragentStatus[0]);
 
         } catch (URISyntaxException | IOException e) {
@@ -93,7 +94,7 @@ public class OrganizationClient {
     }
 
     public Organization[] getOrganizationsByInnList(Iterable<String> innList) throws DiadocSdkException {
-        var request = GetOrganizationsByInnListRequest.newBuilder();
+        GetOrganizationsByInnListRequest.Builder request = GetOrganizationsByInnListRequest.newBuilder();
         request.addAllInnList(innList);
         return getOrganizationsByInnList(request.build());
     }
@@ -103,12 +104,12 @@ public class OrganizationClient {
             throw new IllegalArgumentException("innListRequest");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetOrganizationsByInnList")
                             .build())
                     .setEntity(new ByteArrayEntity(innListRequest.toByteArray()));
-            var response = GetOrganizationsByInnListResponse.parseFrom(diadocHttpClient.performRequest(request));
+            GetOrganizationsByInnListResponse response = GetOrganizationsByInnListResponse.parseFrom(diadocHttpClient.performRequest(request));
             return response
                     .getOrganizationsList()
                     .stream()
@@ -124,7 +125,7 @@ public class OrganizationClient {
             throw new IllegalArgumentException("inn");
         }
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GetOrganizationsByInnKpp")
                     .addParameter("inn", inn);
 
@@ -135,7 +136,7 @@ public class OrganizationClient {
             if (includeRelations) {
                 url.addParameter("includeRelations", "true");
             }
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return OrganizationList.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -148,13 +149,13 @@ public class OrganizationClient {
 
     public OrganizationList getMyOrganizations(boolean autoRegister) throws DiadocSdkException {
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GetMyOrganizations");
 
             if (!autoRegister) {
                 url.addParameter("autoRegister", Boolean.toString(false));
             }
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return OrganizationList.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -167,7 +168,7 @@ public class OrganizationClient {
 
     public OrganizationUsersList getOrganizationUsers(String orgId) throws DiadocSdkException {
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetOrganizationUsers")
                             .addParameter("orgId", orgId)
@@ -184,7 +185,7 @@ public class OrganizationClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetMyPermissions")
                             .addParameter("orgId", orgId)
@@ -197,7 +198,7 @@ public class OrganizationClient {
 
     private Organization getOrganization(String name, String value) throws DiadocSdkException {
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(
                             diadocHttpClient.getBaseUrl())
                             .setPath("/GetOrganization")
@@ -216,7 +217,7 @@ public class OrganizationClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(
                             diadocHttpClient.getBaseUrl())
                             .setPath("/GetOrganizationFeatures")
@@ -231,7 +232,7 @@ public class OrganizationClient {
 
     public RegistrationResponse register(RegistrationRequest registrationRequest) throws DiadocSdkException {
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/Register")
                             .build())
@@ -245,7 +246,7 @@ public class OrganizationClient {
 
     public void registerConfirm(RegistrationConfirmRequest registrationConfirmRequest) throws DiadocSdkException {
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/Register")
                             .build())
@@ -266,14 +267,14 @@ public class OrganizationClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/CanSendInvoice")
                             .addParameter("boxId", boxId)
                             .build())
                     .setEntity(new ByteArrayEntity(certBytes));
 
-            var response = diadocHttpClient.getResponse(request);
+            DiadocResponseInfo response = diadocHttpClient.getResponse(request);
             switch (response.getStatusCode()) {
                 case HttpStatus.SC_OK:
                     return true;

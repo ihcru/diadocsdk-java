@@ -33,7 +33,7 @@ public class EmployeeClient {
         }
         try {
 
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/CreateEmployee")
                             .addParameter("boxId", boxId)
@@ -59,7 +59,7 @@ public class EmployeeClient {
 
         try {
 
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/UpdateEmployee")
                             .addParameter("boxId", boxId)
@@ -82,7 +82,7 @@ public class EmployeeClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/DeleteEmployee")
                             .addParameter("boxId", boxId)
@@ -108,7 +108,7 @@ public class EmployeeClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GetEmployees")
                     .addParameter("boxId", boxId);
 
@@ -120,7 +120,7 @@ public class EmployeeClient {
                 url.addParameter("count", Integer.toString(count));
             }
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return EmployeeList.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -144,7 +144,7 @@ public class EmployeeClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetEmployee")
                             .addParameter("boxId", boxId)
@@ -161,7 +161,7 @@ public class EmployeeClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetMyEmployee")
                             .addParameter("boxId", boxId)
@@ -181,7 +181,7 @@ public class EmployeeClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetSubscriptions")
                             .addParameter("boxId", boxId)
@@ -205,7 +205,7 @@ public class EmployeeClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/UpdateSubscriptions")
                             .addParameter("boxId", boxId)

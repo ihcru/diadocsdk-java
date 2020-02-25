@@ -32,7 +32,7 @@ public class DepartmentClient {
             throw new IllegalArgumentException("departmentToCreate");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/admin/CreateDepartment")
                             .addParameter("boxId", boxId)
@@ -55,7 +55,7 @@ public class DepartmentClient {
             throw new IllegalArgumentException("departmentToUpdate");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/admin/UpdateDepartment")
                             .addParameter("boxId", boxId)
@@ -77,7 +77,7 @@ public class DepartmentClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/admin/DeleteDepartment")
                             .addParameter("boxId", boxId)
@@ -98,7 +98,7 @@ public class DepartmentClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/admin/GetDepartment")
                             .addParameter("boxId", boxId)
@@ -138,7 +138,7 @@ public class DepartmentClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/admin/GetDepartments")
                     .addParameter("boxId", boxId);
 
@@ -150,7 +150,7 @@ public class DepartmentClient {
                 url.addParameter("count", Integer.toString(count));
             }
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return DepartmentList.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -165,7 +165,7 @@ public class DepartmentClient {
             throw new IllegalArgumentException("departmentId");
         }
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetDepartment")
                             .addParameter("orgId", orgId)

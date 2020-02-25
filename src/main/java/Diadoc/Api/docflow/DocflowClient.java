@@ -25,7 +25,7 @@ public class DocflowClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/SearchDocflows")
                             .addParameter("boxId", boxId)
@@ -42,7 +42,7 @@ public class DocflowClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V2/GetDocflowsByPacketId")
                             .addParameter("boxId", boxId)
@@ -59,7 +59,7 @@ public class DocflowClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V3/GetDocflows")
                             .addParameter("boxId", boxId)
@@ -76,7 +76,7 @@ public class DocflowClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V3/GetDocflowEvents")
                             .addParameter("boxId", boxId)
@@ -93,7 +93,7 @@ public class DocflowClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V3/SearchDocflows")
                             .addParameter("boxId", boxId)
@@ -110,7 +110,7 @@ public class DocflowClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V3/GetDocflowsByPacketId")
                             .addParameter("boxId", boxId)

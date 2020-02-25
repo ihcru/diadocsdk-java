@@ -24,7 +24,7 @@ public class EventsClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/V6/GetNewEvents")
                     .addParameter("boxId", currentBoxId)
                     .addParameter("includeDrafts", null);
@@ -33,7 +33,7 @@ public class EventsClient {
                 url.addParameter("afterEventId", eventIdCurrent);
             }
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return BoxEventList.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -46,7 +46,7 @@ public class EventsClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetLastEvent")
                             .addParameter("boxId", boxId).build());
@@ -65,7 +65,7 @@ public class EventsClient {
         }
         try {
 
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V2/GetEvent")
                             .addParameter("boxId", boxId)

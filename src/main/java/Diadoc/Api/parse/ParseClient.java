@@ -190,7 +190,7 @@ public class ParseClient {
 
     public byte[] parseTitleXml(String boxId, String documentTypeNamedId, String documentFunction, String documentVersion, Integer titleIndex, byte[] content) throws IOException, DiadocSdkException {
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/ParseTitleXml")
                             .addParameter("boxId", boxId)
@@ -208,13 +208,13 @@ public class ParseClient {
 
     private byte[] parseXml(byte[] xmlContent, String path, @Nullable String documentVersion) throws DiadocSdkException {
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath(path);
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath(path);
 
             if (documentVersion != null) {
                 url.addParameter("documentVersion", documentVersion);
             }
 
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     url.build())
                     .setEntity(new ByteArrayEntity(xmlContent));
 

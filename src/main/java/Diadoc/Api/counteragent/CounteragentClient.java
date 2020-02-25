@@ -40,7 +40,7 @@ public class CounteragentClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/V2/AcquireCounteragent")
                     .addParameter("myOrgId", myOrgId);
 
@@ -48,7 +48,7 @@ public class CounteragentClient {
                 url.addParameter("myDepartmentId", myDepartmentId);
             }
 
-            var request = RequestBuilder
+            RequestBuilder request = RequestBuilder
                     .post(url.build())
                     .setEntity(new ByteArrayEntity(acquireCounteragentRequest.toByteArray()));
 
@@ -76,7 +76,7 @@ public class CounteragentClient {
         }
 
         try {
-            var request = RequestBuilder
+            RequestBuilder request = RequestBuilder
                     .get(new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V2/GetCounteragent")
                             .addParameter("myOrgId", myOrgId)
@@ -97,7 +97,7 @@ public class CounteragentClient {
         }
 
         try {
-            var request = RequestBuilder
+            RequestBuilder request = RequestBuilder
                     .get(new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetCounteragentCertificates")
                             .addParameter("myOrgId", myOrgId)
@@ -114,7 +114,7 @@ public class CounteragentClient {
             throw new IllegalArgumentException("myOrgId");
         }
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/V2/GetCounteragents")
                     .addParameter("myOrgId", myOrgId);
 
@@ -126,7 +126,7 @@ public class CounteragentClient {
                 url.addParameter("afterIndexKey", afterIndexKey);
             }
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return CounteragentList.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -142,7 +142,7 @@ public class CounteragentClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/BreakWithCounteragent")
                     .addParameter("myOrgId", myOrgId)
                     .addParameter("counteragentOrgId", counteragentOrgId);
@@ -151,7 +151,7 @@ public class CounteragentClient {
                 url.addParameter("comment", comment);
             }
 
-            var request = RequestBuilder.post(url.build());
+            RequestBuilder request = RequestBuilder.post(url.build());
             diadocHttpClient.performRequest(request);
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);

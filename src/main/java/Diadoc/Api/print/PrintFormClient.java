@@ -1,6 +1,7 @@
 package Diadoc.Api.print;
 
 import Diadoc.Api.exceptions.DiadocSdkException;
+import Diadoc.Api.httpClient.DiadocResponseInfo;
 import Diadoc.Api.print.models.DocumentProtocolResult;
 import Diadoc.Api.print.models.DocumentZipResult;
 import Diadoc.Api.print.models.PrintFormContent;
@@ -38,14 +39,14 @@ public class PrintFormClient {
         }
 
         try {
-            var request = RequestBuilder.get(new URIBuilder(diadocHttpClient.getBaseUrl())
+            RequestBuilder request = RequestBuilder.get(new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GeneratePrintForm")
                     .addParameter("boxId", boxId)
                     .addParameter("messageId", messageId)
                     .addParameter("documentId", documentId)
                     .build());
 
-            var response = diadocHttpClient.getRawResponse(request);
+            DiadocResponseInfo response = diadocHttpClient.getRawResponse(request);
 
             if (response.getRetryAfter() != null) {
                 return new PrintFormResult(response.getRetryAfter());
@@ -66,7 +67,7 @@ public class PrintFormClient {
             throw new IllegalArgumentException("detectionRequest");
         }
         try {
-            var request = RequestBuilder.post(new URIBuilder(diadocHttpClient.getBaseUrl())
+            RequestBuilder request = RequestBuilder.post(new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/DetectCustomPrintForms")
                     .addParameter("boxId", boxId)
                     .build())
@@ -91,7 +92,7 @@ public class PrintFormClient {
             throw new IllegalArgumentException("documentId");
         }
         try {
-            var request = RequestBuilder.get(new URIBuilder(diadocHttpClient.getBaseUrl())
+            RequestBuilder request = RequestBuilder.get(new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GenerateDocumentZip")
                     .addParameter("boxId", boxId)
                     .addParameter("messageId", messageId)
@@ -99,7 +100,7 @@ public class PrintFormClient {
                     .addParameter("fullDocflow", String.valueOf(fullDocflow))
                     .build());
 
-            var response = diadocHttpClient.getRawResponse(request);
+            DiadocResponseInfo response = diadocHttpClient.getRawResponse(request);
 
             if (response.getRetryAfter() != null) {
                 return new DocumentZipResult(response.getRetryAfter());
@@ -124,14 +125,14 @@ public class PrintFormClient {
         }
 
         try {
-            var request = RequestBuilder.get(new URIBuilder(diadocHttpClient.getBaseUrl())
+            RequestBuilder request = RequestBuilder.get(new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GenerateDocumentProtocol")
                     .addParameter("boxId", boxId)
                     .addParameter("messageId", messageId)
                     .addParameter("documentId", documentId)
                     .build());
 
-            var response = diadocHttpClient.getRawResponse(request);
+            DiadocResponseInfo response = diadocHttpClient.getRawResponse(request);
 
             if (response.getRetryAfter() != null) {
                 return new DocumentProtocolResult(response.getRetryAfter());

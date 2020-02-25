@@ -21,7 +21,7 @@ public class UserClient {
 
     public User getMyUser() throws DiadocSdkException {
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/GetMyUser").build());
             return User.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
@@ -31,7 +31,7 @@ public class UserClient {
 
     public UserV2 getMyUserV2() throws DiadocSdkException {
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/V2/GetMyUser").build());
             return UserV2.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
@@ -44,7 +44,7 @@ public class UserClient {
             throw new IllegalArgumentException("userToUpdate");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/UpdateMyUser")
                             .build())

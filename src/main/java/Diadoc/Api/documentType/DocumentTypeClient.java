@@ -31,7 +31,7 @@ public class DocumentTypeClient {
         }
         try {
 
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetDocumentTypes")
                             .addParameter("boxId", boxId)
@@ -51,7 +51,7 @@ public class DocumentTypeClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/DetectDocumentTypes")
                             .addParameter("boxId", boxId)
@@ -69,7 +69,7 @@ public class DocumentTypeClient {
             throw new IllegalArgumentException("boxId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/DetectDocumentTypes")
                             .addParameter("boxId", boxId)
@@ -95,7 +95,7 @@ public class DocumentTypeClient {
             throw new IllegalArgumentException("titleIndex should be non-negative");
         }
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetContent")
                             .addParameter("typeNamedId", typeNamedId)
@@ -123,7 +123,7 @@ public class DocumentTypeClient {
         }
 
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/DetectDocumentTitles")
                             .addParameter("boxId", boxId)
@@ -141,7 +141,7 @@ public class DocumentTypeClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/DetectDocumentTitles")
                             .addParameter("boxId", boxId)

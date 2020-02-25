@@ -31,7 +31,7 @@ public class TemplateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/PostTemplate").build())
                     .setEntity(new ByteArrayEntity(templateToPost.toByteArray()));
 
@@ -47,7 +47,7 @@ public class TemplateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/TransformTemplateToMessage").build())
                     .setEntity(new ByteArrayEntity(templateTransformationToPost.toByteArray()));
 
@@ -71,7 +71,7 @@ public class TemplateClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GetTemplate")
                     .addParameter("boxId", currentBoxId)
                     .addParameter("templateId", templateId);
@@ -80,7 +80,7 @@ public class TemplateClient {
                 url.addParameter("entityId", entityId);
             }
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
 
             return Template.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
@@ -104,7 +104,7 @@ public class TemplateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/PostTemplatePatch")
                             .addParameter("boxId", boxId)

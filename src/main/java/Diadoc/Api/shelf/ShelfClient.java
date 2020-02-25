@@ -3,6 +3,7 @@ package Diadoc.Api.shelf;
 import Diadoc.Api.exceptions.DiadocException;
 import Diadoc.Api.exceptions.DiadocSdkException;
 import Diadoc.Api.helpers.System7Emu;
+import Diadoc.Api.httpClient.DiadocResponseInfo;
 import com.google.gson.Gson;
 import Diadoc.Api.httpClient.DiadocHttpClient;
 import org.apache.http.HttpStatus;
@@ -40,7 +41,7 @@ public class ShelfClient {
         if (!nameOnShelf.contains(SHELF_PATH_PREFIX))
             nameOnShelf = SHELF_PATH_PREFIX + "/" + nameOnShelf;
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/ShelfDownload")
                             .addParameter("nameOnShelf", nameOnShelf)
@@ -55,14 +56,14 @@ public class ShelfClient {
         if (data == null)
             throw new IllegalArgumentException("data");
 
-        var nameOnShelf = createNameOnShelf();
-        var parts = splitDataIntoParts(data);
+        String nameOnShelf = createNameOnShelf();
+        ArrayList<ByteArraySegment> parts = splitDataIntoParts(data);
         List<Integer> missingParts = new ArrayList<>();
 
         for (int i = 0; i < parts.size(); i++)
             missingParts.add(i);
 
-        var httpErrors = new ArrayList<Exception>();
+        ArrayList<Exception> httpErrors = new ArrayList<Exception>();
         int attempts = 0;
         while (missingParts.size() > 0) {
             if (++attempts > SHELF_MAX_ATTEMPTS)
@@ -115,7 +116,7 @@ public class ShelfClient {
     }
 
     private List<Integer> putPart(String nameOnShelf, ByteArraySegment part, int partIndex, boolean isLastPart, List<Exception> httpErrors) throws URISyntaxException, DiadocException, IOException {
-        var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+        URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                 .setPath("/ShelfUpload")
                 .addParameter("nameOnShelf", String.format("%s/%s", SHELF_PATH_PREFIX, nameOnShelf))
                 .addParameter("partIndex", Integer.toString(partIndex));
@@ -127,7 +128,7 @@ public class ShelfClient {
         byte[] responseContent;
 
         try {
-            var response = diadocHttpClient.getResponse(RequestBuilder.post(url.build()).setEntity(new ByteArrayEntity(part.getBytes())));
+            DiadocResponseInfo response = diadocHttpClient.getResponse(RequestBuilder.post(url.build()).setEntity(new ByteArrayEntity(part.getBytes())));
             if (response.getStatusCode() != HttpStatus.SC_OK) {
                 if (SHELF_NON_RETRIABLE_STATUS_CODES.contains(response.getStatusCode())) {
                     throw new DiadocException(formatResponseMessage(response.getReason(), response.getStatusCode()), response.getStatusCode());

@@ -80,7 +80,7 @@ public class GenerateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath(path)
                             .addParameter("boxId", boxId)
@@ -132,7 +132,7 @@ public class GenerateClient {
         }
         try {
 
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateInvoiceXml")
                             .addParameter("invoiceType", invoiceType)
@@ -172,7 +172,7 @@ public class GenerateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateTitleXml")
                             .addParameter("boxId", boxId)
@@ -261,7 +261,7 @@ public class GenerateClient {
 
         try {
 
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateSenderTitleXml")
                             .addParameter("boxId", boxId)
@@ -311,7 +311,7 @@ public class GenerateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateRecipientTitleXml")
                             .addParameter("boxId", boxId)
@@ -342,7 +342,7 @@ public class GenerateClient {
             throw new IllegalArgumentException("sellerTitleInfo");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateTorg12XmlForSeller")
                             .addParameter("disableValidation", String.valueOf(disableValidation))
@@ -420,7 +420,7 @@ public class GenerateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateTorg12XmlForBuyer")
                             .addParameter("boxId", boxId)
@@ -458,7 +458,7 @@ public class GenerateClient {
             throw new IllegalArgumentException("sellerTitleInfo");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateAcceptanceCertificateXmlForSeller")
                             .addParameter("disableValidation", String.valueOf(disableValidation))
@@ -506,7 +506,7 @@ public class GenerateClient {
             throw new IllegalArgumentException("sellerTitleAttachmentId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateAcceptanceCertificateXmlForBuyer")
                             .addParameter("boxId", boxId)
@@ -535,7 +535,7 @@ public class GenerateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateUniversalTransferDocumentXmlForSeller")
                             .addParameter("documentVersion", documentVersion)
@@ -567,7 +567,7 @@ public class GenerateClient {
             throw new IllegalArgumentException("sellerTitleAttachmentId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateUniversalTransferDocumentXmlForBuyer")
                             .addParameter("boxId", boxId)
@@ -590,7 +590,7 @@ public class GenerateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GenerateUniversalTransferDocumentXmlForSeller")
                             .addParameter("correction", null)
@@ -629,7 +629,7 @@ public class GenerateClient {
         }
 
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath(path)
                             .addParameter("boxId", boxId)

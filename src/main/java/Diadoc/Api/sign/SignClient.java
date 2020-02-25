@@ -32,12 +32,12 @@ public class SignClient {
             throw new IllegalArgumentException("cloudSignRequest");
         }
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/CloudSign");
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/CloudSign");
 
             if (certificateThumbprint != null) {
                 url.addParameter("certificateThumbprint", certificateThumbprint);
             }
-            var result = diadocHttpClient.performRequest(RequestBuilder.post(url.build()).setEntity(new ByteArrayEntity(cloudSignRequest.toByteArray())));
+            byte[] result = diadocHttpClient.performRequest(RequestBuilder.post(url.build()).setEntity(new ByteArrayEntity(cloudSignRequest.toByteArray())));
             return AsyncMethodResult.parseFrom(result);
 
         } catch (URISyntaxException | IOException e) {
@@ -47,7 +47,7 @@ public class SignClient {
 
     public CloudSignResult waitCloudSignResult(String taskId, Integer timeoutInMillis) throws DiadocSdkException {
         try {
-            var data = diadocHttpClient.waitTaskResult("/CloudSignResult", taskId, timeoutInMillis);
+            byte[] data = diadocHttpClient.waitTaskResult("/CloudSignResult", taskId, timeoutInMillis);
             return CloudSignResult.parseFrom(data);
         } catch (InvalidProtocolBufferException e) {
             throw new DiadocSdkException(e);
@@ -56,12 +56,12 @@ public class SignClient {
 
     public AsyncMethodResult cloudSignConfirm(String token, String confirmationCode, boolean returnContent) throws DiadocSdkException {
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/CloudSignConfirm")
                     .addParameter("token", token)
                     .addParameter("confirmationCode", confirmationCode)
                     .addParameter("return", returnContent ? "Content" : "Reference");
-            var result = diadocHttpClient.performRequest(
+            byte[] result = diadocHttpClient.performRequest(
                     RequestBuilder.post(url.build()).addHeader("Content-Length", "0"));
             return AsyncMethodResult.parseFrom(result);
 
@@ -85,7 +85,7 @@ public class SignClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/AutoSignReceipts")
                     .addParameter("boxId", boxId);
 
@@ -97,7 +97,7 @@ public class SignClient {
                 url.addParameter("batchKey", batchKey);
             }
 
-            var result = diadocHttpClient.performRequest(
+            byte[] result = diadocHttpClient.performRequest(
                     RequestBuilder.post(url.build()).addHeader("Content-Length", "0"));
             return AsyncMethodResult.parseFrom(result);
 
@@ -130,7 +130,7 @@ public class SignClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/DssSign")
                     .addParameter("boxId", boxId);
 
@@ -139,7 +139,7 @@ public class SignClient {
             }
 
 
-            var result = diadocHttpClient.performRequest(
+            byte[] result = diadocHttpClient.performRequest(
                     RequestBuilder.post(url.build())
                             .setEntity(new ByteArrayEntity(request.toByteArray())));
             return AsyncMethodResult.parseFrom(result);
@@ -157,7 +157,7 @@ public class SignClient {
             throw new IllegalArgumentException("taskId");
         }
         try {
-            var result = diadocHttpClient.performRequest(
+            byte[] result = diadocHttpClient.performRequest(
                     RequestBuilder.get(
                             new URIBuilder(diadocHttpClient.getBaseUrl())
                                     .setPath("/DssSignResult")
@@ -179,7 +179,7 @@ public class SignClient {
         }
 
         try {
-            var result = diadocHttpClient.performRequest(
+            byte[] result = diadocHttpClient.performRequest(
                     RequestBuilder.get(
                             new URIBuilder(diadocHttpClient.getBaseUrl())
                                     .setPath("/V2/ExtendedSignerDetails")
@@ -202,7 +202,7 @@ public class SignClient {
         }
 
         try {
-            var result = diadocHttpClient.performRequest(
+            byte[] result = diadocHttpClient.performRequest(
                     RequestBuilder.post(
                             new URIBuilder(diadocHttpClient.getBaseUrl())
                                     .setPath("/V2/ExtendedSignerDetails")

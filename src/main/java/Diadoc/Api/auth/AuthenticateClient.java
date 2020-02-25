@@ -29,7 +29,7 @@ public class AuthenticateClient {
     public void authenticate(String sid) throws DiadocSdkException {
         try {
             authManager.clearCredentials();
-            var request = RequestBuilder
+            RequestBuilder request = RequestBuilder
                     .post(new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath(V_3_AUTHENTICATE)
                             .addParameter("type", "sid")
@@ -37,7 +37,7 @@ public class AuthenticateClient {
                     .addHeader("Content-Type", "text/plain")
                     .setEntity(new ByteArrayEntity(sid.getBytes()));
 
-            var response = diadocHttpClient.performRequest(request);
+            byte[] response = diadocHttpClient.performRequest(request);
             authManager.setCredentials(new String(response, UTF_8));
         } catch (URISyntaxException | IOException ex) {
             throw new DiadocSdkException(ex);
@@ -48,7 +48,7 @@ public class AuthenticateClient {
         try {
             authManager.clearCredentials();
 
-            var request = RequestBuilder
+            RequestBuilder request = RequestBuilder
                     .post(new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath(V_3_AUTHENTICATE)
                             .addParameter("type", "password")
@@ -61,7 +61,7 @@ public class AuthenticateClient {
                                     .build()
                                     .toByteArray()));
 
-            var response = diadocHttpClient.performRequest(request);
+            byte[] response = diadocHttpClient.performRequest(request);
             authManager.setCredentials(new String(response, UTF_8));
         } catch (IOException | URISyntaxException e) {
             throw new DiadocSdkException(e);
@@ -71,14 +71,14 @@ public class AuthenticateClient {
 
     public void confirmAuthenticationByCertificate(X509Certificate currentCert, String token) throws DiadocSdkException {
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/V3/AuthenticateConfirm")
                             .addParameter("token", token)
                             .build())
                     .setEntity(new ByteArrayEntity(currentCert.getEncoded()));
 
-            var response = diadocHttpClient.performRequest(request);
+            byte[] response = diadocHttpClient.performRequest(request);
 
             authManager.setCredentials(StringUtils.newStringUtf8(response));
         } catch (URISyntaxException | CertificateEncodingException | IOException ex) {
@@ -91,12 +91,12 @@ public class AuthenticateClient {
             throw new IllegalArgumentException("key");
         }
         try {
-            var request = RequestBuilder.get(
+            RequestBuilder request = RequestBuilder.get(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/GetExternalServiceAuthInfo")
                             .addParameter("key", key)
                             .build());
-            var response = diadocHttpClient.performRequest(request);
+            byte[] response = diadocHttpClient.performRequest(request);
             return ExternalServiceAuthInfo.parseFrom(response);
         } catch (URISyntaxException | IOException ex) {
             throw new DiadocSdkException(ex);

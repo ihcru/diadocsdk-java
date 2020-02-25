@@ -40,11 +40,11 @@ public class MessageClient {
             throw new IllegalArgumentException("msg");
         }
         try {
-            var uriBuilder = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/V3/PostMessage");
+            URIBuilder uriBuilder = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/V3/PostMessage");
             if (operationId != null) {
                 uriBuilder.addParameter("operationId", operationId);
             }
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     uriBuilder.build())
                     .setEntity(new ByteArrayEntity(msg.toByteArray()));
 
@@ -63,7 +63,7 @@ public class MessageClient {
         }
 
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/V5/GetMessage")
                     .addParameter("boxId", currentBoxId)
                     .addParameter("messageId", messageId)
@@ -74,7 +74,7 @@ public class MessageClient {
                 url.addParameter("entityId", entityId);
             }
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return Message.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -111,11 +111,11 @@ public class MessageClient {
         }
 
         try {
-            var uriBuilder = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/V3/PostMessagePatch");
+            URIBuilder uriBuilder = new URIBuilder(diadocHttpClient.getBaseUrl()).setPath("/V3/PostMessagePatch");
             if (operationId != null) {
                 uriBuilder.addParameter("operationId", operationId);
             }
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     uriBuilder.build())
                     .setEntity(new ByteArrayEntity(patch.toByteArray()));
 
@@ -133,7 +133,7 @@ public class MessageClient {
             throw new IllegalArgumentException("messageId");
         }
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/Delete")
                     .addParameter("boxId", boxId)
                     .addParameter("messageId", messageId);
@@ -142,7 +142,7 @@ public class MessageClient {
                 url.addParameter("entityId", documentId);
             }
 
-            var request = RequestBuilder.post(url.build()).setHeader("Content-Length", "0");
+            RequestBuilder request = RequestBuilder.post(url.build()).setHeader("Content-Length", "0");
             diadocHttpClient.performRequest(request);
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
@@ -157,7 +157,7 @@ public class MessageClient {
             throw new IllegalArgumentException("draftId");
         }
         try {
-            var request = RequestBuilder.post(
+            RequestBuilder request = RequestBuilder.post(
                     new URIBuilder(diadocHttpClient.getBaseUrl())
                             .setPath("/RecycleDraft")
                             .addParameter("boxId", boxId)
@@ -183,13 +183,13 @@ public class MessageClient {
             throw new IllegalArgumentException("entityId");
         }
         try {
-            var url = new URIBuilder(diadocHttpClient.getBaseUrl())
+            URIBuilder url = new URIBuilder(diadocHttpClient.getBaseUrl())
                     .setPath("/GetInvoiceCorrectionRequestInfo")
                     .addParameter("boxId", boxId)
                     .addParameter("messageId", messageId)
                     .addParameter("entityId", entityId);
 
-            var request = RequestBuilder.get(url.build());
+            RequestBuilder request = RequestBuilder.get(url.build());
             return InvoiceCorrectionRequestInfo.parseFrom(diadocHttpClient.performRequest(request));
         } catch (URISyntaxException | IOException e) {
             throw new DiadocSdkException(e);
