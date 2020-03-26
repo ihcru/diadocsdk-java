@@ -4,7 +4,7 @@
 
     <groupId>ru.kontur.diadoc</groupId>
     <artifactId>diadocsdk</artifactId>
-    <version>3.0.4-nojcp</version>
+    <version>3.0.4-nojcp-v20200326</version>
 
     <packaging>jar</packaging>
 

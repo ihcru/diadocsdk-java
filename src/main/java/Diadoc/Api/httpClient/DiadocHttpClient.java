@@ -106,12 +106,13 @@ public class DiadocHttpClient {
 
 
     private byte[] getResponseBytes(HttpResponse response) throws IOException {
+        byte[] responseBody = IOUtils.toByteArray(response.getEntity().getContent());
         if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
             throw new HttpResponseException(
                     response.getStatusLine().getStatusCode(),
-                    response.getStatusLine().getReasonPhrase());
+                    "" + response.getStatusLine().getReasonPhrase() + " :: " + new String(responseBody));
         }
-        return IOUtils.toByteArray(response.getEntity().getContent());
+        return responseBody;
     }
 
     private DiadocResponseInfo getResponse(HttpResponse response) throws IOException {
